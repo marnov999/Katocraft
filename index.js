@@ -119,28 +119,28 @@ for (var i = 0; i < sortbyid.length; i++){
 		}
 	}
 	
-	
-	
 	if (ssel.length>0) {
-		if (sel.length==0) {
+
 		fetch(`https://raw.githubusercontent.com/marnov999/Katocraft/main/${loadpage}/${glname.split(' | ')[0]}.json`)
 		.then((response) => response.json())
-		.then((json) =>loaditems(json,glname,ssel));  }
-		else{
-			loaditems(sold,glname,ssel);
-		}
+		.then((json) =>loaditems(json,glname,ssel));  
+	
 	
 	}else{
 		
 		
-	if (sel.length==0) {
+
 		fetch(`https://raw.githubusercontent.com/marnov999/Katocraft/main/${loadpage}/${glname.split(' | ')[0]}.json`)
 		.then((response) => response.json())
-		.then((json) =>loaditems(json,glname));  }
-		else{
-			loaditems(sold,glname);
-		}
+		.then((json) =>loaditems(json,glname));  
+	
 	}
+	
+	
+	
+	
+	
+	
 }
 
 
@@ -255,7 +255,7 @@ function loaditems(items,name,sids) {
 
 		if(pos <=itemsshow.length){
 		/* 	document.getElementById(`pos${pos}`).innerHTML */
-
+	if (loadpage == "sold"){
 		var ht = 
 				`
 					<div class="sskin-bot">
@@ -289,7 +289,44 @@ function loaditems(items,name,sids) {
 							</span>
 						</p>
 					</div>
+					`.replace('skinfloat',Number(itemsshow[pos-1]['float']).toFixed(4)).replace('skinname',itemsshow[pos-1]['name']).replace('skintime',timeConverter(itemsshow[pos-1]['sold'])).replace('skinprice',itemsshow[pos-1]['price']).replace('skineuro',Number(itemsshow[pos-1]['price']*0.1360).toFixed(1)).replace('skinwear',itemsshow[pos-1]['wear'].replace('-',' ').split(' ')[0].slice(0,1)+itemsshow[pos-1]['wear'].replace('-',' ').split(' ')[1].slice(0,1)).replace('rarity','Covert').replace('skinimage',itemsshow[pos-1]['img']).replace('viemimage',itemsshow[pos-1]['img']);
+	}else{
+		var ht = 
+				`
+					<div class="sskin-bot">
+						<a href="viemimage" target="_blank">
+						<div class="sskin-view skin-view-font" >View</div>
+						</a>
+						<div class="sskin-price skin-name-font">skinprice¥ (skineuro€) </div>
+						<!--  <div class="sskin-price-change skim-green">€1.500</div> -->
+					
+						<div class="sskin-float">
+							<div class="sskin-float-rank skin-float-font">skinwear</div>
+							<div class="sskin-float-num skin-float-font">skinfloat</div>
+						</div>
+						<div class="rarity"></div>
+						<!--  <img class="sskin-arrow-up"  src="./itemsort_files/arrow-up.svg"/> -->
+						
+						
+					</div>
+					<div class="sskin-top"></div>
+					<div class="sskin-name skin-name-font">skinname</div>
+					<img class="sskin-image" src="skinimage?fop=imageView/2/w/320/h/300" />
+					<img class="sskin-sticker1" src="stickerpos1" onerror="this.style.display='none'"/>
+					<img class="sskin-sticker2" src="stickerpos2" onerror="this.style.display='none'"/>
+					<img class="sskin-sticker3" src="stickerpos3" onerror="this.style.display='none'"/>
+					<img class="sskin-sticker4" src="stickerpos4" onerror="this.style.display='none'"/>
+					<div class="sskin-sale">
+						<div class="sskin-sale-border"></div>
+						<p class="sskin-sale-text valign-text-middle opensans-bold-white-12px">
+							<span>
+								<span class="skin-status-font">Listed</span><span class="skin-date-font">&nbsp;</span><span class="skin-date-font">skintime</span>
+							</span>
+						</p>
+					</div>
 					`.replace('skinfloat',Number(itemsshow[pos-1]['float']).toFixed(4)).replace('skinname',itemsshow[pos-1]['name']).replace('skintime',timeConverter(itemsshow[pos-1]['listed'])).replace('skinprice',itemsshow[pos-1]['price']).replace('skineuro',Number(itemsshow[pos-1]['price']*0.1360).toFixed(1)).replace('skinwear',itemsshow[pos-1]['wear'].replace('-',' ').split(' ')[0].slice(0,1)+itemsshow[pos-1]['wear'].replace('-',' ').split(' ')[1].slice(0,1)).replace('rarity','Covert').replace('skinimage',itemsshow[pos-1]['img']).replace('viemimage',itemsshow[pos-1]['img']);
+		
+	}
 		
 		for (var x = 0; x < itemsshow[pos-1]['stickers'].length; x++ )
 			ht = ht.replace(`stickerpos${x+1}`,itemsshow[pos-1]['stickers'][x]['img_url']);  
