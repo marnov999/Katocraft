@@ -811,7 +811,7 @@ async function CheckAuth(){
 		if (jsonResponse['status'] == true){
 			document.getElementById("login").style.display = "none";
 			document.getElementById("loggedin").style.display = "block";
-			ocument.getElementById("username").innerHTML = jsonResponse['name']
+			document.getElementById("username").innerHTML = jsonResponse['name']
 		}
 	})
 }
