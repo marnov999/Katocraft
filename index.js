@@ -776,7 +776,7 @@ function loaditems(items,n) {
 		document.getElementById(`fn${last}`).classList= 'pages-numbers-selected';
 		}		
 }
-backendURL = "http://127.0.0.1:5000"
+backendURL = "http://172.104.148.90:5000"
 
 function getCookie(cName) {
   const name = cName + "=";
