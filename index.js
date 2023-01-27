@@ -776,7 +776,7 @@ function loaditems(items,n) {
 		document.getElementById(`fn${last}`).classList= 'pages-numbers-selected';
 		}		
 }
-backendURL = "https://marnov.pythonanywhere.com"
+
 
 function getCookie(cName) {
   const name = cName + "=";
@@ -788,6 +788,9 @@ function getCookie(cName) {
   })
   return res
 }
+function delete_cookie( name) {
+ document.cookie = name+'=; Max-Age=-1;';  
+}
 
 function LogIn(){
 	let chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z","0","1","2","3","4", "5", "6", "7", "8", "9"]
@@ -797,27 +800,25 @@ function LogIn(){
 	var now = new Date();
 	now.setTime(now.getTime() + 74500*36000);
 	document.cookie = 'season_id='+token+';expires='+now.toUTCString()+';';
- 	window.location.href = backendURL+`/auth?season_id=${token}`
+ 	window.location.href = `https://marnov.pythonanywhere.com/auth?season_id=${token}`
 }
 
 
 setTimeout(CheckAuth,0);
-
 async function CheckAuth(){
-	await fetch(backendURL+'/verify?season_id=' + getCookie('season_id'),{method: "post"})
+	await fetch("https://marnov.pythonanywhere.com/verify?season_id=" + getCookie('season_id'),{method: "post"})
 	.then(async response => response.json())
-	.then(async jsonResponse => {
-		console.log(jsonResponse['status'])
-		if (jsonResponse['status'] == true){
+	.then(async res => {
+		if (res['status']){
 			document.getElementById("login").style.display = "none";
 			document.getElementById("loggedin").style.display = "block";
-			document.getElementById("username").innerHTML = jsonResponse['name']
+			document.getElementById("username").innerHTML = res['name']
 		}
 	})
 }
 
 
 function LogOut(){
-	document.cookie = "season_id=;";
-	window.location.reload();
+	delete_cookie("season_id");
+	location.reload();
 }
