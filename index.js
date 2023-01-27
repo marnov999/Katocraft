@@ -778,6 +778,17 @@ function loaditems(items,n) {
 }
 backendURL = "http://127.0.0.1:5000"
 
+function getCookie(cName) {
+  const name = cName + "=";
+  const cDecoded = decodeURIComponent(document.cookie); //to be careful
+  const cArr = cDecoded.split('; ');
+  let res;
+  cArr.forEach(val => {
+    if (val.indexOf(name) === 0) res = val.substring(name.length);
+  })
+  return res
+}
+
 function LogIn(){
 	let chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z","0","1","2","3","4", "5", "6", "7", "8", "9"]
 	let token = ""
@@ -793,20 +804,14 @@ function LogIn(){
 setTimeout(CheckAuth,0);
 
 async function CheckAuth(){
-	let value = `; ${document.cookie}`;
-	const parts = value.split(`; season_id=`);
-	if (parts.length === 2) value = parts.pop().split(';').shift();
-	else {return}
-	// check if user is logged in
-	await fetch(backendURL+'/check_auth?season_id=' + value, 
-	{method: "post"})
+	await fetch(backendURL+'/verify?season_id=' + getCookie(season_id),{method: "post"})
 	.then(async response => response.json())
 	.then(async jsonResponse => {
-		console.log(jsonResponse['authorized'])
-		if (jsonResponse['authorized'] == true){
+		console.log(jsonResponse['status'])
+		if (jsonResponse['status'] == true){
 			document.getElementById("login").style.display = "none";
 			document.getElementById("loggedin").style.display = "block";
-			return await LoggedIn()
+			ocument.getElementById("username").innerHTML = jsonResponse['name']
 		}
 	})
 }
@@ -815,17 +820,4 @@ async function CheckAuth(){
 function LogOut(){
 	document.cookie = "season_id=;";
 	window.location.reload();
-}
-
-async function LoggedIn(){
-	let value = `; ${document.cookie}`;
-	const parts = value.split(`; season_id=`);
-	value = parts.pop().split(';').shift();
-	await fetch(backendURL+'/get_user?season_id=' + value, 
-	{method: "post"})
-	.then(async response => response.json())
-	.then(async jsonResponse => {
-		console.log(jsonResponse)
-		document.getElementById("username").innerHTML = jsonResponse['username']
-	})
 }
