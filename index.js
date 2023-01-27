@@ -776,7 +776,7 @@ function loaditems(items,n) {
 		document.getElementById(`fn${last}`).classList= 'pages-numbers-selected';
 		}		
 }
-backendURL = "http://172.104.148.90:5000"
+backendURL = "https://marnov.pythonanywhere.com"
 
 function getCookie(cName) {
   const name = cName + "=";
