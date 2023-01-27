@@ -804,7 +804,7 @@ function LogIn(){
 setTimeout(CheckAuth,0);
 
 async function CheckAuth(){
-	await fetch(backendURL+'/verify?season_id=' + getCookie(season_id),{method: "post"})
+	await fetch(backendURL+'/verify?season_id=' + getCookie('season_id'),{method: "post"})
 	.then(async response => response.json())
 	.then(async jsonResponse => {
 		console.log(jsonResponse['status'])
